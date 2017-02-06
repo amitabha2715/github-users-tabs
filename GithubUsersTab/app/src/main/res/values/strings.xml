@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">GithubUsersTab</string>
+    <string name="error_no_connection_title">Ошибка</string>
+    <string name="error_no_connection_description">Отсутсвует интернет соединение</string>
+    <string name="btn_refresh">Обновить</string>
+    <string name="loading">Загрузка данных</string>
+</resources>
