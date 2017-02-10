@@ -55,6 +55,7 @@ public class RealmController
 
 	/**Members**/
 	private final Realm realm;
+	private String suggestionsText = "";
 
 	/**Getters and setters**/
 	public Realm getRealm() {
@@ -69,7 +70,6 @@ public class RealmController
 
 	/**Methods**/
 	public void clearUsers() {
-
 		realm.beginTransaction();
 		realm.delete(User.class);
 		realm.commitTransaction();
@@ -92,75 +92,140 @@ public class RealmController
 		return realm.where(User.class).findAll();
 	}
 
-	public User getUserForId(String id) {
+	public User getUserForId(int id) {
 
 		return realm.where(User.class).equalTo("id", id).findFirst();
 	}
 
-	public RealmResults<User> getUsersAH() {
+	public RealmResults<User> getSuggestions(String text) {
+		return realm.where(User.class).contains(User.LOGIN, text, Case.INSENSITIVE).findAll();
+	}
 
+	public void setSuggestions(String text) {
+		suggestionsText = text;
+	}
+
+	public RealmResults<User> getUsersAH() {
 		return realm.where(User.class)
-				.beginsWith(User.LOGIN, "a", Case.INSENSITIVE)
-				.or()
-				.beginsWith(User.LOGIN, "b", Case.INSENSITIVE)
-				.or()
-				.beginsWith(User.LOGIN, "c", Case.INSENSITIVE)
-				.or()
-				.beginsWith(User.LOGIN, "d", Case.INSENSITIVE)
-				.or()
-				.beginsWith(User.LOGIN, "e", Case.INSENSITIVE)
-				.or()
-				.beginsWith(User.LOGIN, "f", Case.INSENSITIVE)
-				.or()
-				.beginsWith(User.LOGIN, "g", Case.INSENSITIVE)
-				.or()
-				.beginsWith(User.LOGIN, "h", Case.INSENSITIVE)
+				.contains(User.LOGIN, suggestionsText, Case.INSENSITIVE)
+				.not()
+				.beginsWith(User.LOGIN, "i", Case.INSENSITIVE)
+				.not()
+				.beginsWith(User.LOGIN, "j", Case.INSENSITIVE)
+				.not()
+				.beginsWith(User.LOGIN, "k", Case.INSENSITIVE)
+				.not()
+				.beginsWith(User.LOGIN, "l", Case.INSENSITIVE)
+				.not()
+				.beginsWith(User.LOGIN, "m", Case.INSENSITIVE)
+				.not()
+				.beginsWith(User.LOGIN, "n", Case.INSENSITIVE)
+				.not()
+				.beginsWith(User.LOGIN, "o", Case.INSENSITIVE)
+				.not()
+				.beginsWith(User.LOGIN, "p", Case.INSENSITIVE)
+				.not()
+				.beginsWith(User.LOGIN, "q", Case.INSENSITIVE)
+				.not()
+				.beginsWith(User.LOGIN, "r", Case.INSENSITIVE)
+				.not()
+				.beginsWith(User.LOGIN, "s", Case.INSENSITIVE)
+				.not()
+				.beginsWith(User.LOGIN, "t", Case.INSENSITIVE)
+				.not()
+				.beginsWith(User.LOGIN, "u", Case.INSENSITIVE)
+				.not()
+				.beginsWith(User.LOGIN, "v", Case.INSENSITIVE)
+				.not()
+				.beginsWith(User.LOGIN, "w", Case.INSENSITIVE)
+				.not()
+				.beginsWith(User.LOGIN, "x", Case.INSENSITIVE)
+				.not()
+				.beginsWith(User.LOGIN, "y", Case.INSENSITIVE)
+				.not()
+				.beginsWith(User.LOGIN, "z", Case.INSENSITIVE)
 				.findAll();
 	}
 
 	public RealmResults<User> getUsersIP() {
 
 		return realm.where(User.class)
-				.beginsWith(User.LOGIN, "i", Case.INSENSITIVE)
-				.or()
-				.beginsWith(User.LOGIN, "j", Case.INSENSITIVE)
-				.or()
-				.beginsWith(User.LOGIN, "k", Case.INSENSITIVE)
-				.or()
-				.beginsWith(User.LOGIN, "l", Case.INSENSITIVE)
-				.or()
-				.beginsWith(User.LOGIN, "m", Case.INSENSITIVE)
-				.or()
-				.beginsWith(User.LOGIN, "n", Case.INSENSITIVE)
-				.or()
-				.beginsWith(User.LOGIN, "o", Case.INSENSITIVE)
-				.or()
-				.beginsWith(User.LOGIN, "p", Case.INSENSITIVE)
+				.contains(User.LOGIN, suggestionsText, Case.INSENSITIVE)
+				.not()
+				.beginsWith(User.LOGIN, "a", Case.INSENSITIVE)
+				.not()
+				.beginsWith(User.LOGIN, "b", Case.INSENSITIVE)
+				.not()
+				.beginsWith(User.LOGIN, "c", Case.INSENSITIVE)
+				.not()
+				.beginsWith(User.LOGIN, "d", Case.INSENSITIVE)
+				.not()
+				.beginsWith(User.LOGIN, "e", Case.INSENSITIVE)
+				.not()
+				.beginsWith(User.LOGIN, "f", Case.INSENSITIVE)
+				.not()
+				.beginsWith(User.LOGIN, "g", Case.INSENSITIVE)
+				.not()
+				.beginsWith(User.LOGIN, "h", Case.INSENSITIVE)
+				.not()
+				.beginsWith(User.LOGIN, "q", Case.INSENSITIVE)
+				.not()
+				.beginsWith(User.LOGIN, "r", Case.INSENSITIVE)
+				.not()
+				.beginsWith(User.LOGIN, "s", Case.INSENSITIVE)
+				.not()
+				.beginsWith(User.LOGIN, "t", Case.INSENSITIVE)
+				.not()
+				.beginsWith(User.LOGIN, "u", Case.INSENSITIVE)
+				.not()
+				.beginsWith(User.LOGIN, "v", Case.INSENSITIVE)
+				.not()
+				.beginsWith(User.LOGIN, "w", Case.INSENSITIVE)
+				.not()
+				.beginsWith(User.LOGIN, "x", Case.INSENSITIVE)
+				.not()
+				.beginsWith(User.LOGIN, "y", Case.INSENSITIVE)
+				.not()
+				.beginsWith(User.LOGIN, "z", Case.INSENSITIVE)
 				.findAll();
 	}
 
 	public RealmResults<User> getUsersQZ() {
 
 		return realm.where(User.class)
-				.beginsWith(User.LOGIN, "q", Case.INSENSITIVE)
-				.or()
-				.beginsWith(User.LOGIN, "r", Case.INSENSITIVE)
-				.or()
-				.beginsWith(User.LOGIN, "s", Case.INSENSITIVE)
-				.or()
-				.beginsWith(User.LOGIN, "t", Case.INSENSITIVE)
-				.or()
-				.beginsWith(User.LOGIN, "u", Case.INSENSITIVE)
-				.or()
-				.beginsWith(User.LOGIN, "v", Case.INSENSITIVE)
-				.or()
-				.beginsWith(User.LOGIN, "w", Case.INSENSITIVE)
-				.or()
-				.beginsWith(User.LOGIN, "x", Case.INSENSITIVE)
-				.or()
-				.beginsWith(User.LOGIN, "y", Case.INSENSITIVE)
-				.or()
-				.beginsWith(User.LOGIN, "z", Case.INSENSITIVE)
+				.contains(User.LOGIN, suggestionsText, Case.INSENSITIVE)
+				.not()
+				.beginsWith(User.LOGIN, "a", Case.INSENSITIVE)
+				.not()
+				.beginsWith(User.LOGIN, "b", Case.INSENSITIVE)
+				.not()
+				.beginsWith(User.LOGIN, "c", Case.INSENSITIVE)
+				.not()
+				.beginsWith(User.LOGIN, "d", Case.INSENSITIVE)
+				.not()
+				.beginsWith(User.LOGIN, "e", Case.INSENSITIVE)
+				.not()
+				.beginsWith(User.LOGIN, "f", Case.INSENSITIVE)
+				.not()
+				.beginsWith(User.LOGIN, "g", Case.INSENSITIVE)
+				.not()
+				.beginsWith(User.LOGIN, "h", Case.INSENSITIVE)
+				.not()
+				.beginsWith(User.LOGIN, "i", Case.INSENSITIVE)
+				.not()
+				.beginsWith(User.LOGIN, "j", Case.INSENSITIVE)
+				.not()
+				.beginsWith(User.LOGIN, "k", Case.INSENSITIVE)
+				.not()
+				.beginsWith(User.LOGIN, "l", Case.INSENSITIVE)
+				.not()
+				.beginsWith(User.LOGIN, "m", Case.INSENSITIVE)
+				.not()
+				.beginsWith(User.LOGIN, "n", Case.INSENSITIVE)
+				.not()
+				.beginsWith(User.LOGIN, "o", Case.INSENSITIVE)
+				.not()
+				.beginsWith(User.LOGIN, "p", Case.INSENSITIVE)
 				.findAll();
 	}
 }

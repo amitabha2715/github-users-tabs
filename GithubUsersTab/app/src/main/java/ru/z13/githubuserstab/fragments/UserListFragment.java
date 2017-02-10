@@ -37,6 +37,7 @@ public class UserListFragment extends Fragment
 	private UsersAdapter adapter;
 	private Realm realm;
 	private String type;
+	private RealmUsersAdapter realmAdapter;
 
 	/**Getters and setters**/
 	public String getType()
@@ -68,24 +69,12 @@ public class UserListFragment extends Fragment
 		recyclerView.setAdapter(adapter);
 
 		realm = RealmController.with(this).getRealm();
-		RealmResults<User> users = null;
-		switch (type)
-		{
-			case FragmentEnums.A_H:
-				users = RealmController.with(this).getUsersAH();
-				break;
 
-			case FragmentEnums.I_P:
-				users = RealmController.with(this).getUsersIP();
-				break;
-
-			case FragmentEnums.Q_Z:
-				users = RealmController.with(this).getUsersQZ();
-				break;
-		}
+		RealmResults<User> users = getUsers();
 
 		users.addChangeListener(callback);
-		RealmUsersAdapter realmAdapter = new RealmUsersAdapter(getActivity(), users);
+		realmAdapter = new RealmUsersAdapter(getActivity(), users);
+		realmAdapter.notifyDataSetChanged();
 
 		adapter.setRealmAdapter(realmAdapter);
 		adapter.notifyDataSetChanged();
@@ -103,6 +92,35 @@ public class UserListFragment extends Fragment
 			}
 		}
 	};
+
+	public void updateChangeAdatapter(){
+
+		if(realmAdapter != null)
+		{
+			realmAdapter.updateData(getUsers());
+
+			if(adapter != null)
+			{
+				adapter.notifyDataSetChanged();
+			}
+		}
+	}
+
+	private RealmResults<User> getUsers(){
+		switch (type)
+		{
+			case FragmentEnums.A_H:
+				return RealmController.with(this).getUsersAH();
+
+			case FragmentEnums.I_P:
+				return RealmController.with(this).getUsersIP();
+
+			case FragmentEnums.Q_Z:
+				return RealmController.with(this).getUsersQZ();
+		}
+
+		return null;
+	}
 
 
 }

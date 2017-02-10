@@ -1,16 +1,25 @@
 package ru.z13.githubuserstab;
 
 import android.app.ProgressDialog;
+import android.app.SearchManager;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.SearchView;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.AutoCompleteTextView;
 
 import com.example.android.common.view.SlidingTabLayout;
 
@@ -30,6 +39,7 @@ import ru.z13.githubuserstab.api.ApiFactory;
 import ru.z13.githubuserstab.api.GitHubService;
 import ru.z13.githubuserstab.api.RetrofitCallback;
 import ru.z13.githubuserstab.database.realm.RealmController;
+import ru.z13.githubuserstab.database.realm.adapters.SuggestionSimpleCursorAdapter;
 import ru.z13.githubuserstab.database.realm.model.User;
 import ru.z13.githubuserstab.enums.FragmentEnums;
 import ru.z13.githubuserstab.fragments.UserListFragment;
@@ -58,6 +68,9 @@ public class MainActivity extends AppCompatActivity
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
+		Toolbar mActionBarToolbar = (Toolbar) findViewById(R.id.toolbar);
+		setSupportActionBar(mActionBarToolbar);
+
 		realm = RealmController.with(this).getRealm();
 		if(!realm.isEmpty()) isFirstStart = false;
 
@@ -81,6 +94,65 @@ public class MainActivity extends AppCompatActivity
 		super.onDestroy();
 
 		realm.close();
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.menusearch, menu);
+
+		SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+		final MenuItem searchItem = menu.findItem(R.id.action_search);
+		final SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
+
+		searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+		searchView.setIconifiedByDefault(false);
+
+		int autoCompleteTextViewID = getResources().getIdentifier("search_src_text", "id", getPackageName());
+		final AutoCompleteTextView searchAutoCompleteTextView = (AutoCompleteTextView) searchView.findViewById(autoCompleteTextViewID);
+		searchAutoCompleteTextView.setThreshold(1);
+
+		String[] columns = new String[]{User.LOGIN};
+		int[] columnTextId = new int[]{android.R.id.text1};
+
+		final SuggestionSimpleCursorAdapter simpleCursorAdapter = new SuggestionSimpleCursorAdapter(getBaseContext(),
+				android.R.layout.simple_list_item_1,
+				null,
+				columns,
+				columnTextId,
+				0);
+
+		searchView.setSuggestionsAdapter(simpleCursorAdapter);
+		searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+			@Override
+			public boolean onQueryTextSubmit(String s) {
+				return false;
+			}
+
+			@Override
+			public boolean onQueryTextChange(String s) {
+				RealmController.getInstance().setSuggestions(s);
+
+				if(ahFragment != null)
+				{
+					ahFragment.updateChangeAdatapter();
+				}
+
+				if(ipFragment != null)
+				{
+					ipFragment.updateChangeAdatapter();
+				}
+
+				if(qzFragment != null)
+				{
+					qzFragment.updateChangeAdatapter();
+				}
+
+				return false;
+			}
+		});
+
+		return true;
 	}
 
 	private void initTabs()

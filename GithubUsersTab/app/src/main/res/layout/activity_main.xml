@@ -9,6 +9,8 @@
     android:orientation="vertical"
     tools:context="ru.z13.githubuserstab.MainActivity">
 
+    <include layout="@layout/toolbar" />
+
     <com.example.android.common.view.SlidingTabLayout
         android:id="@+id/sliding_tabs"
         android:layout_width="match_parent"
